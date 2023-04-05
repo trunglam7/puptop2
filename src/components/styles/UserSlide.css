@@ -1,0 +1,48 @@
+.user-menu{
+    top: 0;
+    right: 0;
+    min-height: 100vh;
+    position: absolute;
+    background-color: white;
+    padding-top: 3rem;
+    z-index: 1;
+    animation: slideLeftDesktop 0.5s forwards;
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.login-btn{
+    padding: 1rem;
+    border-radius: 1rem;
+    background-color: rgb(166, 218, 248);
+    max-height: 3.5rem;
+}
+
+.login-btn:hover{
+    opacity: 0.7;
+}
+
+@media screen and (max-width: 550px) {
+    .user-menu{
+        animation: slideLeftMobile 0.5s forwards;
+    }
+}
+
+@keyframes slideLeftMobile {
+    from {
+        left: 100%;
+    }
+    to{
+        left: 0;
+    }
+}
+
+@keyframes slideLeftDesktop {
+    from {
+        left: 100%;
+    }
+    to{
+        left: 65%;
+    }
+}

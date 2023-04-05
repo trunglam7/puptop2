@@ -1,25 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
+import Header from "./components/Header";
+import { createContext, useState } from "react";
+
+import './App.css'
+import Main from "./components/Main";
+import Footer from "./components/Footer";
+
+export const AuthContext = createContext();
 
 function App() {
+
+  const [openMenu, setOpenMenu] = useState(false);
+  const [login, setLogin] = useState(false);
+
+  const openMenuHandler = () => {
+    setOpenMenu(!openMenu);
+  }
+
+  const authHandler = () => {
+    setLogin(true);
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <AuthContext.Provider value={login}>
+        <div className="App">
+          <Header openMenuHandler={openMenuHandler} authHandler={authHandler}/>
+          <Main />
+          <Footer />
+        </div>
+      </AuthContext.Provider>
+      <div className={openMenu ? "cover-active" : null}></div>
+    </>
   );
+
 }
 
 export default App;

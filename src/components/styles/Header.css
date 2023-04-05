@@ -1,0 +1,22 @@
+header{
+    background-color: white;
+    min-height: 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+h1{
+    padding-bottom: 10px;
+}
+
+header button{
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    color: black;
+}
+
+.menu-btn-active{
+    z-index: 2;
+}

@@ -1,0 +1,13 @@
+.add-container{
+    background-color: white;
+    padding: 10px;
+    display: grid;
+    place-items: center;
+}
+
+.add-button{
+    background-color: transparent;
+    border: none;
+    color: black;
+    cursor: pointer;
+}

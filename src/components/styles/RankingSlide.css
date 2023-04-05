@@ -1,0 +1,39 @@
+.ranking-side{
+    background-color: white;
+    position: absolute;
+    top: 0;
+    left: 0;
+    min-height: 100vh;
+    z-index: 1;
+    padding-top: 3rem;
+    animation: slideRightDesktop 0.5s forwards;
+    overflow: hidden;
+}
+
+.ranking-side h2{
+    text-align: center;
+}
+
+@media screen and (max-width: 550px) {
+    .ranking-side{
+        animation: slideRightMobile 0.5s forwards;
+    }
+}
+
+@keyframes slideRightMobile {
+    from {
+        right: 100%;
+    }
+    to{
+        right: 0;
+    }
+}
+
+@keyframes slideRightDesktop {
+    from {
+        right: 100%;
+    }
+    to{
+        right: 75%;
+    }
+}
