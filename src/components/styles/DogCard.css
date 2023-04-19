@@ -6,7 +6,6 @@
     overflow: hidden;
     display: flex;
     flex-direction: column-reverse;
-    background-image: url('https://www.akc.org/wp-content/uploads/2017/11/Miniature-American-Shepherd-puppy-outdoors.jpg');
     background-position: center;
     background-size: cover;
     box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.5);

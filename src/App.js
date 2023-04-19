@@ -4,8 +4,11 @@ import { createContext, useState } from "react";
 import './App.css'
 import Main from "./components/Main";
 import Footer from "./components/Footer";
+import { dogsList } from "./DogList";
+
 
 export const AuthContext = createContext();
+export const DogContext = createContext();
 
 function App() {
 
@@ -25,7 +28,9 @@ function App() {
       <AuthContext.Provider value={login}>
         <div className="App">
           <Header openMenuHandler={openMenuHandler} authHandler={authHandler}/>
-          <Main />
+          <DogContext.Provider value={dogsList}>
+            <Main />
+          </DogContext.Provider>
           <Footer />
         </div>
       </AuthContext.Provider>

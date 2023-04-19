@@ -2,10 +2,10 @@ import React from 'react'
 
 import './styles/DogCard.css'
 
-const DogCard = () => {
+const DogCard = ({name, image}) => {
   return (
-    <div className='dog-card'>
-        <p className='dog-name'>Name</p>
+    <div className='dog-card' style={{backgroundImage: `url(${image})`}}>
+        <p className='dog-name'>{name}</p>
     </div>
   )
 }
