@@ -19,3 +19,33 @@
     color: white;
     text-transform: uppercase;
 }
+
+.vote-right{
+    animation: slide-right 0.5s forwards;
+}
+
+.vote-left{
+    animation: slide-left 0.5s forwards;
+}
+
+@keyframes slide-right {
+    from{
+        transform: translate(0) rotate(0deg);
+        opacity: 1;
+    }
+    to{
+        transform: translate(100px) rotate(30deg);
+        opacity: 0;
+    }
+}
+
+@keyframes slide-left {
+    from{
+        transform: translate(0) rotate(0deg);
+        opacity: 1;
+    }
+    to{
+        transform: translate(-100px) rotate(-30deg);
+        opacity: 0;
+    }
+}

@@ -8,7 +8,7 @@
 
 .vote-btn-container{
     display: flex;
-    column-gap: 2rem;
+    column-gap: 3rem;
     margin-top: 1rem;
 }
 
@@ -18,5 +18,7 @@
     border-radius: 50%;
     padding: .5rem;
     background-color: white;
-    border: 2px solid gray;
+    border: 2px solid rgb(173, 173, 173);
+    cursor: pointer;
 }
+
