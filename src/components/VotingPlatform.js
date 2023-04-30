@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useState } from 'react'
 import {AiOutlineClose, AiFillHeart} from 'react-icons/ai'
 
 import './styles/VotingPlatform.css'
@@ -9,37 +9,43 @@ const VotingPlatform = () => {
 
   const dogList = useContext(DogContext);
   const [voteAnimation, setVoteAnimation] = useState(null);
-  const [dogToggle, setDogToggle] = useState(false);
   const [currDog, setCurrDog] = useState(0);
 
-  useEffect(() => {
-    setTimeout(() => {
-      setVoteAnimation(null);
-      setCurrDog(currDog + 1);
-    }, 1000)
-  }, [dogToggle])
-
-  return (
-    <div className='voting-container'>
+  const Dogs = () => {
+    return (
+      <>
         <DogCard voteAnimation={voteAnimation} name={dogList[currDog].name} image={dogList[currDog].image}/>
         <div className='vote-btn-container'>
           <button className='vote-btn' onClick={() => voteHandler('left')}><AiOutlineClose size={'3rem'} color='red'/></button>
           <button className='vote-btn' onClick={() => voteHandler('right')}><AiFillHeart size={'3rem'} color='rgb(3, 255, 192)'/></button>
         </div>
+      </>
+    )
+  }
+
+  return (
+    <div className='voting-container'>
+        {
+          currDog <= Object.keys(dogList).length - 1 ? <Dogs /> : <p>No Dogs to Vote</p>
+        }
     </div>
   )
 
   function voteHandler(direction){
     if(direction === 'right'){
+      dogList[currDog].score += 1;
       setVoteAnimation('vote-right');
     }
     if(direction === 'left'){
+      dogList[currDog].score -= 1;
       setVoteAnimation('vote-left');
     }
 
-    if(currDog + 1 <= dogList.length - 1){
-      setDogToggle(!dogToggle)
-    }
+    setTimeout(() => {
+      setVoteAnimation(null);
+      setCurrDog(currDog + 1);
+    }, 500)
+
   }
 }
 

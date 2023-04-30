@@ -1,0 +1,14 @@
+.dog-img{
+    width: 100px;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 50%;
+}
+
+.rank-card-container{
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 2rem;
+    gap: 1rem;
+}
