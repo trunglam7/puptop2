@@ -5,7 +5,7 @@ import './styles/Header.css'
 import RankingSlide from './RankingSlide';
 import UserSlide from './UserSlide';
 
-const Header = ({openMenuHandler, authHandler}) => {
+const Header = ({openMenuHandler, authHandler, signOutHandler}) => {
 
 
     const [openRanking, setOpenRanking] = useState(false);
@@ -31,7 +31,7 @@ const Header = ({openMenuHandler, authHandler}) => {
                 {openUser ? <CgClose size={'3rem'} /> : <CgMenuRightAlt size={'3rem'}/>}
             </button>
             {openRanking ? <RankingSlide /> : null}
-            {openUser ? <UserSlide authHandler={authHandler}/> : null}
+            {openUser ? <UserSlide authHandler={authHandler} signOutHandler={signOutHandler}/> : null}
         </header>
     )
 }

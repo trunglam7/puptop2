@@ -8,8 +8,6 @@ const RankingSlide = () => {
   const authCheck = useContext(AuthContext);
   const dogList = useContext(DogContext);
 
-  console.log(Object.values(dogList));
-
   return (
     <aside className='ranking-side'>
         <h2>RANKING</h2>

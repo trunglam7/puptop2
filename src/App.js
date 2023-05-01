@@ -1,7 +1,6 @@
 import Header from "./components/Header";
-import { createContext, useState } from "react";
-import {getAuth, signInWithPopup, GoogleAuthProvider} from 'firebase/auth';
-import {useAuthState} from 'react-firebase-hooks/auth';
+import { createContext, useEffect, useState } from "react";
+import {getAuth, signInWithPopup, GoogleAuthProvider, signInAnonymously, linkWithPopup, signOut} from 'firebase/auth';
 
 import './App.css'
 import Main from "./components/Main";
@@ -18,7 +17,14 @@ function App() {
 
   const [openMenu, setOpenMenu] = useState(false);
   const [login, setLogin] = useState(false);
-  const [user] = useAuthState(auth);
+
+  useEffect(() => {
+    signInAnonymously(auth).catch((err) => {
+      const errorCode = err.code;
+      const errorMsg = err.message;
+      console.log(errorCode, errorMsg);
+    })
+  }, [])
 
   const openMenuHandler = () => {
     setOpenMenu(!openMenu);
@@ -26,18 +32,28 @@ function App() {
 
   const authHandler = () => {
     const provider = new GoogleAuthProvider();
-    signInWithPopup(auth, provider);
-    setLogin(true);
+    linkWithPopup(auth.currentUser, provider).then(() => {
+      setLogin(true);
+    }).catch((err) => {
+      signInWithPopup(auth, provider)
+      console.log("Google Sign-In Failed: ", err);
+    });
   }
 
-  console.log(user);
+  const signOutHandler = () => {
+    signOut(auth).then(() => {
+      setLogin(false);
+    }).catch((err) => {
+      console.log('Unable to Sign Out: ', err);
+    })
+  }
 
   return (
     <>
       <AuthContext.Provider value={login}>
         <div className="App">
-          <Header openMenuHandler={openMenuHandler} authHandler={authHandler}/>
           <DogContext.Provider value={dogsList}>
+            <Header openMenuHandler={openMenuHandler} authHandler={authHandler} signOutHandler={signOutHandler}/>
             <Main />
           </DogContext.Provider>
           <Footer />
