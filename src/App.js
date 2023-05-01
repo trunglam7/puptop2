@@ -1,11 +1,12 @@
 import Header from "./components/Header";
 import { createContext, useEffect, useState } from "react";
-import {getAuth, signInWithPopup, GoogleAuthProvider, signInAnonymously, linkWithPopup, signOut} from 'firebase/auth';
+import {getAuth, signInWithPopup, GoogleAuthProvider, signOut} from 'firebase/auth';
+import {doc, getDoc} from 'firebase/firestore'
+import { db } from './backend/Firebase'
 
 import './App.css'
 import Main from "./components/Main";
 import Footer from "./components/Footer";
-import { dogsList } from "./DogList";
 import { app } from "./backend/Firebase";
 
 export const AuthContext = createContext();
@@ -17,13 +18,24 @@ function App() {
 
   const [openMenu, setOpenMenu] = useState(false);
   const [login, setLogin] = useState(false);
+  const [dogData, setDogData] = useState({});
 
+  //Get Dog list from Firebase
   useEffect(() => {
-    signInAnonymously(auth).catch((err) => {
-      const errorCode = err.code;
-      const errorMsg = err.message;
-      console.log(errorCode, errorMsg);
-    })
+    const docRef = doc(db, "DogList", "Dogs");
+
+    const fetchDogData = async() => {
+      const docSnap = await getDoc(docRef);
+      if(docSnap.exists()) {
+        setDogData(docSnap.data());
+      }
+      else{
+        console.log("No such document");
+      }
+    }
+
+    fetchDogData().catch((err) => console.log("Error fetching data:", err));
+
   }, [])
 
   const openMenuHandler = () => {
@@ -32,10 +44,9 @@ function App() {
 
   const authHandler = () => {
     const provider = new GoogleAuthProvider();
-    linkWithPopup(auth.currentUser, provider).then(() => {
+    signInWithPopup(auth, provider).then(() => {
       setLogin(true);
     }).catch((err) => {
-      signInWithPopup(auth, provider)
       console.log("Google Sign-In Failed: ", err);
     });
   }
@@ -52,7 +63,7 @@ function App() {
     <>
       <AuthContext.Provider value={login}>
         <div className="App">
-          <DogContext.Provider value={dogsList}>
+          <DogContext.Provider value={dogData}>
             <Header openMenuHandler={openMenuHandler} authHandler={authHandler} signOutHandler={signOutHandler}/>
             <Main />
           </DogContext.Provider>
