@@ -12,7 +12,7 @@ const VotingPlatform = () => {
   const dogData = useContext(DogContext);
   const authCheck = useContext(AuthContext);
   const [voteAnimation, setVoteAnimation] = useState(null);
-  const [currDog, setCurrDog] = useState(0);
+  const [currDogDemo, setCurrDogDemo] = useState(0);
   const [currDogData, setCurrDogData] = useState(0);
 
   const Dogs = () => {
@@ -21,10 +21,10 @@ const VotingPlatform = () => {
         {!authCheck ? <p style={{marginBottom: '1.5rem'}}>DEMO : Login to Vote Real Dogs</p> : null}
         <DogCard
           voteAnimation={voteAnimation}
-          name={authCheck ? dogData[currDogData]?.name : dogsList[currDog].name}
-          image={authCheck ? dogData[currDogData]?.image : dogsList[currDog].image}
+          name={authCheck ? dogData[currDogData]?.name : dogsList[currDogDemo].name}
+          image={authCheck ? dogData[currDogData]?.image : dogsList[currDogDemo].image}
         />
-        <div className='vote-btn-container'>
+        <div className='vote-btn-container' style={{pointerEvents: voteAnimation ? 'none' : 'auto'}}>
           <button className='vote-btn' onClick={() => voteHandler('left')}><AiOutlineClose size={'3rem'} color='red'/></button>
           <button className='vote-btn' onClick={() => voteHandler('right')}><AiFillHeart size={'3rem'} color='rgb(3, 255, 192)'/></button>
         </div>
@@ -35,7 +35,7 @@ const VotingPlatform = () => {
   return (
     <div className='voting-container'>
         {
-          currDog <= Object.keys(authCheck ? dogData : dogsList).length - 1 ? <Dogs /> : <p>No Dogs to Vote</p>
+          (authCheck ? currDogData : currDogDemo) <= Object.keys(authCheck ? dogData : dogsList).length - 1 ? <Dogs /> : <p>No Dogs to Vote</p>
         }
     </div>
   )
@@ -53,14 +53,14 @@ const VotingPlatform = () => {
     setTimeout(() => {
       setVoteAnimation(null);
       if(authCheck) {
-        setCurrDogData(currDog + 1);
+        setCurrDogData(currDogData + 1);
       }
       else{
-        if(currDog + 1 > Object.keys(dogsList).length - 1){
-          setCurrDog(0);
+        if(currDogDemo + 1 > Object.keys(dogsList).length - 1){
+          setCurrDogDemo(0);
         }
         else{
-          setCurrDog(currDog + 1);
+          setCurrDogDemo(currDogDemo + 1);
         }
       }
     }, 500)
