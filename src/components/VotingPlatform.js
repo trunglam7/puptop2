@@ -1,11 +1,12 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import {AiOutlineClose, AiFillHeart} from 'react-icons/ai'
-
 
 import './styles/VotingPlatform.css'
 import DogCard from './DogCard'
 import { AuthContext, DogContext } from '../App'
 import { dogsList } from "../DogList";
+import { doc, setDoc } from 'firebase/firestore'
+import { db } from '../backend/Firebase'
 
 const VotingPlatform = () => {
 
@@ -43,10 +44,12 @@ const VotingPlatform = () => {
   function voteHandler(direction){
     if(direction === 'right'){
       if(authCheck) dogData[currDogData].score += 1;
+      if(authCheck) updateDogDB().then(() => console.log("Update Complete")).catch(err => console.log(err));
       setVoteAnimation('vote-right');
     }
-    if(direction === 'left'){
+    else if(direction === 'left'){
       if(authCheck) dogData[currDogData].score -= 1;
+      if(authCheck) updateDogDB().then(() => console.log("Update Complete")).catch(err => console.log(err));
       setVoteAnimation('vote-left');
     }
 
@@ -64,7 +67,11 @@ const VotingPlatform = () => {
         }
       }
     }, 500)
+  }
 
+  async function updateDogDB() {
+    const docRef = doc(db, "DogList", "Dogs");
+    await setDoc(docRef, dogData);
   }
 }
 
