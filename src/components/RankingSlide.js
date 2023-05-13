@@ -11,7 +11,7 @@ const RankingSlide = () => {
   return (
     <aside className='ranking-side'>
         <h2>RANKING</h2>
-        {Object.values(dogList).sort((a, b) => (a.score < b.score) ? 1 : -1).map((x, index) => <RankingCard key={index} name={x.name} image={x.image} place={index + 1}/>)}
+        {Object.values(dogList).filter(x => typeof x === 'object').sort((a, b) => (a.score < b.score) ? 1 : -1).map((x, index) => <RankingCard key={index} name={x.name} image={x.image} place={index + 1}/>)}
         {authCheck ? <h2>Your Ranking</h2> : null}
     </aside>
   )

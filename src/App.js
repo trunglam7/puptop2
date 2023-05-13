@@ -20,6 +20,8 @@ function App() {
   const [login, setLogin] = useState(false);
   const [dogData, setDogData] = useState({});
 
+  const user = auth.currentUser?.uid;
+
   //Get Dog list from Firebase
   useEffect(() => {
     const docRef = doc(db, "DogList", "Dogs");
@@ -38,10 +40,12 @@ function App() {
 
   }, [])
 
+
   const openMenuHandler = () => {
     setOpenMenu(!openMenu);
   }
 
+  // Function to sign in with Google
   const authHandler = () => {
     const provider = new GoogleAuthProvider();
     signInWithPopup(auth, provider).then(() => {
@@ -51,6 +55,7 @@ function App() {
     });
   }
 
+  // Function to sign out user
   const signOutHandler = () => {
     signOut(auth).then(() => {
       setLogin(false);
@@ -66,8 +71,8 @@ function App() {
           <DogContext.Provider value={dogData}>
             <Header openMenuHandler={openMenuHandler} authHandler={authHandler} signOutHandler={signOutHandler}/>
             <Main />
+            <Footer />
           </DogContext.Provider>
-          <Footer />
         </div>
       </AuthContext.Provider>
       <div className={openMenu ? "cover-active" : null}></div>

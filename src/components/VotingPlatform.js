@@ -6,7 +6,8 @@ import DogCard from './DogCard'
 import { AuthContext, DogContext } from '../App'
 import { dogsList } from "../DogList";
 import { doc, setDoc } from 'firebase/firestore'
-import { db } from '../backend/Firebase'
+import { app, db } from '../backend/Firebase'
+import { getAuth } from 'firebase/auth'
 
 const VotingPlatform = () => {
 
@@ -15,6 +16,8 @@ const VotingPlatform = () => {
   const [voteAnimation, setVoteAnimation] = useState(null);
   const [currDogDemo, setCurrDogDemo] = useState(0);
   const [currDogData, setCurrDogData] = useState(0);
+
+  const user = getAuth(app).currentUser?.uid;
 
   const Dogs = () => {
     return (
