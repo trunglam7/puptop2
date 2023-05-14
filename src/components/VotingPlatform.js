@@ -5,7 +5,7 @@ import './styles/VotingPlatform.css'
 import DogCard from './DogCard'
 import { AuthContext, DogContext } from '../App'
 import { dogsList } from "../DogList";
-import { doc, setDoc } from 'firebase/firestore'
+import { doc, getDoc, setDoc } from 'firebase/firestore'
 import { app, db } from '../backend/Firebase'
 import { getAuth } from 'firebase/auth'
 
@@ -18,6 +18,24 @@ const VotingPlatform = () => {
   const [currDogData, setCurrDogData] = useState(0);
 
   const user = getAuth(app).currentUser?.uid;
+
+  useEffect(() => {
+    if(user){
+      const docRef = doc(db, "users", user);
+      const fetchUserData = async() => {
+        const docSnap = await getDoc(docRef);
+        if(docSnap.exists()) {
+          console.log("User found")
+          setCurrDogData(docSnap.data().currVoteId);
+        }
+        else{
+          console.log("No such document");
+        }
+      }
+
+      fetchUserData().catch(err => console.log("Error fetching user data:", err))
+    }
+  }, [user])
 
   const Dogs = () => {
     return (
@@ -39,20 +57,22 @@ const VotingPlatform = () => {
   return (
     <div className='voting-container'>
         {
-          (authCheck ? currDogData : currDogDemo) <= Object.keys(authCheck ? dogData : dogsList).length - 1 ? <Dogs /> : <p>No Dogs to Vote</p>
+          (authCheck ? currDogData : currDogDemo) <= Object.keys(authCheck ? dogData : dogsList).length - 2 ? <Dogs /> : <p>No Dogs to Vote</p>
         }
     </div>
   )
 
   function voteHandler(direction){
     if(direction === 'right'){
-      if(authCheck) dogData[currDogData].score += 1;
-      if(authCheck) updateDogDB().then(() => console.log("Update Complete")).catch(err => console.log(err));
+      if(authCheck){
+        dogData[currDogData].score += 1;
+      }
       setVoteAnimation('vote-right');
     }
     else if(direction === 'left'){
-      if(authCheck) dogData[currDogData].score -= 1;
-      if(authCheck) updateDogDB().then(() => console.log("Update Complete")).catch(err => console.log(err));
+      if(authCheck) {
+        dogData[currDogData].score -= 1;
+      }
       setVoteAnimation('vote-left');
     }
 
@@ -60,6 +80,8 @@ const VotingPlatform = () => {
       setVoteAnimation(null);
       if(authCheck) {
         setCurrDogData(currDogData + 1);
+        updateDogDB().then(() => console.log("Update Complete")).catch(err => console.log(err));
+        updateUserCurrVoteId().then(() => console.log("Update user data complete")).catch(err => console.log(err));
       }
       else{
         if(currDogDemo + 1 > Object.keys(dogsList).length - 1){
@@ -75,6 +97,12 @@ const VotingPlatform = () => {
   async function updateDogDB() {
     const docRef = doc(db, "DogList", "Dogs");
     await setDoc(docRef, dogData);
+  }
+
+  async function updateUserCurrVoteId() {
+    const docRef = doc(db, "users", user);
+    await setDoc(docRef, {
+      currVoteId: currDogData + 1});
   }
 }
 

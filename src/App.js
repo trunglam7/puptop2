@@ -1,7 +1,7 @@
 import Header from "./components/Header";
 import { createContext, useEffect, useState } from "react";
 import {getAuth, signInWithPopup, GoogleAuthProvider, signOut} from 'firebase/auth';
-import {doc, getDoc} from 'firebase/firestore'
+import {doc, getDoc, setDoc} from 'firebase/firestore'
 import { db } from './backend/Firebase'
 
 import './App.css'
@@ -26,6 +26,19 @@ function App() {
   useEffect(() => {
     const docRef = doc(db, "DogList", "Dogs");
 
+    if(user) {
+      const voteDocRef = doc(db, "users", user);
+      const userCheck = async() => {
+        const docSnap = await getDoc(voteDocRef);
+        if(!docSnap.exists()){
+          setDoc(voteDocRef, {
+            currVoteId: 0
+          })
+        }
+      };
+      userCheck().then(console.log("function complete")).catch((err) => console.log("function error", err))
+    }
+
     const fetchDogData = async() => {
       const docSnap = await getDoc(docRef);
       if(docSnap.exists()) {
@@ -38,7 +51,7 @@ function App() {
 
     fetchDogData().catch((err) => console.log("Error fetching data:", err));
 
-  }, [])
+  }, [user])
 
 
   const openMenuHandler = () => {
