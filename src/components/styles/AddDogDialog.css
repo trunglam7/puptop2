@@ -1,0 +1,11 @@
+.dialog-container{
+    width: 50%;
+    height: 50%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    transform: translate(50%, 50%);
+    border-style: none;
+    border-radius: 1rem;
+    z-index: 1;
+}

@@ -57,7 +57,7 @@ const VotingPlatform = () => {
   return (
     <div className='voting-container'>
         {
-          (authCheck ? currDogData : currDogDemo) <= Object.keys(authCheck ? dogData : dogsList).length - 2 ? <Dogs /> : <p>No Dogs to Vote</p>
+          (authCheck ? currDogData : currDogDemo) <= Object.keys(authCheck ? dogData : dogsList).length - (authCheck ? 2 : 1) ? <Dogs /> : <p>No Dogs to Vote</p>
         }
     </div>
   )

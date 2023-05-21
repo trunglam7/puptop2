@@ -84,7 +84,7 @@ function App() {
           <DogContext.Provider value={dogData}>
             <Header openMenuHandler={openMenuHandler} authHandler={authHandler} signOutHandler={signOutHandler}/>
             <Main />
-            <Footer />
+            <Footer openMenuHandler={openMenuHandler}/>
           </DogContext.Provider>
         </div>
       </AuthContext.Provider>
