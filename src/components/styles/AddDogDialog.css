@@ -1,11 +1,41 @@
 .dialog-container{
-    width: 50%;
-    height: 50%;
-    position: fixed;
+    width: max(325px, 50%);
+    min-height: 50%;
+    position: relative;
     top: 0;
     left: 0;
-    transform: translate(50%, 50%);
     border-style: none;
     border-radius: 1rem;
     z-index: 1;
+    padding: 1rem;
+}
+
+.dialog-container > form{
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.image-upload > input{
+    display: none;
+}
+
+.image-upload > label{
+    cursor: pointer;
+}
+
+.add-dog-container{
+    position: fixed;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    z-index: 1;
+}
+
+.dialog-container .button-container{
+    display: flex;
+    gap: 1rem;
 }
